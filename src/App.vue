@@ -1,7 +1,7 @@
 <template>
   <div class="ui-container p-5">
     <TheHeader class="mb-3" />
-    <div class="flex items-start">
+    <div class="flex items-start gap-3">
       <TheNav />
       <TheView />
     </div>

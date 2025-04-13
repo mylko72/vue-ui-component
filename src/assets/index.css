@@ -36,3 +36,37 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/*-------------------------------
+ * Tab
+---------------------------------*/
+
+.ui-tab-container {
+  @apply border border-slate-200 rounded-xl;
+
+  .ui-tab-list {
+    @apply rounded-t-xl overflow-hidden;
+
+    .tab-list {
+      @apply flex-1;
+
+      .tab-btn {
+        @apply block w-full py-4 text-base bg-slate-200;
+      }
+
+      &.active {
+        .tab-btn {
+          @apply bg-white
+        }
+      }
+    }
+  }
+
+  .ui-tab-contents {
+    @apply px-6 py-8;
+
+    .tab-contents {
+      @apply w-full p-3 text-base text-slate-600;
+    }
+  }
+}
