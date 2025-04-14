@@ -63,10 +63,9 @@ body {
   }
 
   .ui-tab-contents {
-    @apply px-6 py-8;
 
     .tab-contents {
-      @apply w-full p-3 text-base text-slate-600;
+      @apply w-full min-h-32 px-9 py-6 text-base text-slate-600;
     }
   }
 }
