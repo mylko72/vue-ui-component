@@ -42,7 +42,7 @@ body {
 ---------------------------------*/
 
 .ui-tab-container {
-  @apply border border-slate-200 rounded-xl;
+  @apply max-w-7xl border border-slate-200 rounded-xl;
 
   .ui-tab-list {
     @apply rounded-t-xl overflow-hidden;

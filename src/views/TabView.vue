@@ -1,7 +1,7 @@
 <template>
-  <section>
+  <section aria-labelledby="title2">
     <div class="border-b pb-4">
-      <h2 class="text-5xl font-medium" tabindex="0">Tabs</h2>
+      <h2 id="title2" class="text-5xl font-medium" tabindex="0">Tabs</h2>
     </div>
     <div class="my-6">
       <p class="py-2">탭은 탭 패널이라고 하는 여러 겹의 콘텐츠 섹션으로 , 한 번에 하나의 콘텐츠 패널을 표시합니다. 각 탭 패널에는 연관된 탭 요소가 있으며, 이 탭 요소가 활성화되면 해당 패널이 표시됩니다. 탭 요소 목록은 현재 표시된 패널의 한쪽 가장자리, 특히 위쪽 가장자리를 따라 정렬됩니다 .</p>
