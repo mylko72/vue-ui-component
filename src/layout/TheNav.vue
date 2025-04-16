@@ -4,7 +4,7 @@
       <h2 class="mb-3 ml-3 text-xs font-semibold text-slate-300 leading-7">Components</h2>
       <ul>
         <li v-for="(menu, i) in menus" class="my-2" :key={i}>
-          <RouterLink class="flex items-center pl-3 text-sm font-semibold leading-9 hover:bg-slate-100 hover:rounded-2xl">
+          <RouterLink :to="menu.url" class="flex items-center pl-3 text-sm font-semibold leading-9 hover:bg-slate-100 hover:rounded-2xl">
             <!-- 아이콘을 동적으로 렌더링 -->
             <component :is="menu.icon" class="inline-block w-5 h-5 mr-2" />
             {{ menu.item }}

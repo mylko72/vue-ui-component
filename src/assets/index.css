@@ -37,10 +37,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.terms-def {
+  @apply mt-6 mb-8;
+
+  dt {
+    @apply text-base font-semibold;
+  }
+  dd {
+    @apply mb-2;
+  }
+}
+
+.comp-view {
+  @apply mt-6 mb-12;
+}
+
 /*-------------------------------
  * Tab
 ---------------------------------*/
-
 .ui-tab-container {
   @apply max-w-7xl border border-slate-200 rounded-xl;
 
@@ -68,4 +82,52 @@ body {
       @apply w-full min-h-32 px-9 py-6 text-base text-slate-600;
     }
   }
+}
+
+/*-------------------------------
+ * Accordion
+---------------------------------*/
+.ui-accordion-group {
+  @apply max-w-3xl;
+
+  .accordion-btn {
+    @apply relative z-0 flex justify-between items-center w-full h-auto py-4 px-4 border border-slate-200 text-base text-left;
+
+    .ic-arrow {
+      @apply text-xl;
+
+      transform-origin: left center;
+      transition: transform .5s;
+    }
+  }
+
+  .ui-accordion-contents {
+    @apply overflow-hidden text-base;
+    transition: height .3s;
+    will-change: height;
+
+    .inner-accordion-contents {
+      @apply p-3;
+    }
+  }
+}
+
+/* 트랜지션 정의 */
+.accordion-enter-active,
+.accordion-leave-active {
+  transition: all 0.3s ease;
+}
+
+.accordion-enter-from,
+.accordion-leave-to {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.accordion-enter-to,
+.accordion-leave-from {
+  max-height: 1000px; /* 충분한 높이 설정 */
+  opacity: 1;
 }

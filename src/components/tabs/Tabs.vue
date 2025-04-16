@@ -43,7 +43,7 @@
 
 <script>
   export default {
-    name: 'TabList',
+    name: 'Tabs',
     props: {
       tabItems : {
         type: Array,

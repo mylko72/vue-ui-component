@@ -14,6 +14,12 @@ const router = createRouter({
       name: 'tab',
       component: () => import('../views/TabView.vue'),
     },
+    {
+      path: '/accordion',
+      name: 'accordion',
+      component: () => import('../views/AccordionView.vue'),
+    },
+
   ],
 })
 
