@@ -16,7 +16,7 @@
         :id="`accordion-panel-${index + 1}`"
         role="region"
         :aria-labelledby="`accordion-head-${index + 1}`"
-        :hidden="!item.open"
+        :hidden="!item.visible"
         ref="regions"
         @transitionend="onTransitionEnd(index)"
       >
@@ -58,22 +58,25 @@
         if (item.open) {
           // Close
           region.style.height = region.scrollHeight + 'px';
+          item.visible = true;
+
           requestAnimationFrame(() => {
+            region.style.transition = 'height 0.3s ease';
             region.style.height = '0px';
             item.open = false;
           });
         } else {
           // Open
-          region.removeAttribute('hidden'); // Make it visible for measurement
-          const scrollHeight = region.scrollHeight;
-          region.style.height = '0px';
+          item.visible = true;
 
           requestAnimationFrame(() => {
-            region.style.transition = 'height 0.3s ease';
-            region.style.height = scrollHeight + 'px';
+            region.style.height = '0px';
+            requestAnimationFrame(() => {
+              region.style.transition = 'height 0.3s ease';
+              region.style.height = region.scrollHeight + 'px';
+              item.open = true;
+            });
           });
-
-          item.open = true;
         }
       },
       onTransitionEnd(index) {
@@ -84,7 +87,7 @@
         region.style.height = '';
 
         if (!item.open) {
-          region.setAttribute('hidden', '');
+          item.visible = false; // <-- 이제 transition 끝나고 hidden 적용
         }
 
         console.log('transition end...');

@@ -16,54 +16,68 @@
       <h3 class="text-xl">Case 1. toggle</h3>
       <p class="py-2">accordion-option="toggle"인 경우 아코디언 헤더 클릭시 아코디언 헤더와 연결된 콘텐츠 섹션만 열리거나 닫힌다. 기본 옵션이다.</p>
       <div class="my-6">
-        <accordion :accordion-items="accordionItems" />
+        <accordion-group :accordion-items="accordionItems" />
       </div>
     </div>
     <div class="comp-view">
       <h3 class="text-xl">Case 2. only</h3>
       <p class="py-2">accordion-option="only"인 경우 아코디언 헤더 클릭시 아코디언 헤더와 연결된 섹션만 열리고 기존에 열려 있던 콘텐츠 섹션은 무조건 닫힌다. 즉, 무조건 하나만 열린다.</p>
       <div class="my-6">
-        <accordion :accordion-items="accordionItems" />
+        <accordion-group :accordion-items="accordionItems2" />
       </div>
     </div>
   </section>
 </template>
 
 <script>
-  import Accordion from '@/components/tabs/Accordion.vue';
+  import AccordionGroup from '@/components/accordion/AccordionGroup.vue';
 
   export default {
     components: {
-      Accordion
+      AccordionGroup,
     },
     data() {
       return {
         accordionItems: [
           {
-            header: 'Accordion Head 1',
-            panel: 'Accordion contents 1 Accordion contents 1 Accordion contents 1 Accordion contents 1',
+            title: 'Accordion Head 1',
+            content: 'Accordion contents 1 Accordion contents 1 Accordion contents 1 Accordion contents 1',
             open: true,
-            transitioning: false
           },
           {
-            header: 'Accordion Head 2',
-            panel: 'Accordion contents 2 Accordion contents 2 Accordion contents 2 Accordion contents 2',
+            title: 'Accordion Head 2',
+            content: 'Accordion contents 2 Accordion contents 2 Accordion contents 2 Accordion contents 2',
             open: false,
-            transitioning: false
           },
           {
-            header: 'Accordion Head 3',
-            panel: 'Accordion contents 3 Accordion contents 3 Accordion contents 3 Accordion contents 3',
+            title: 'Accordion Head 3',
+            content: 'Accordion contents 3 Accordion contents 3 Accordion contents 3 Accordion contents 3',
             open: false,
-            transitioning: false
           },
           {
-            header: 'Accordion Head 4',
-            panel: 'Accordion contents 4 Accordion contents 4 Accordion contents 4 Accordion contents 4',
+            title: 'Accordion Head 4',
+            content: 'Accordion contents 4 Accordion contents 4 Accordion contents 4 Accordion contents 4',
             open: false,
-            transitioning: false
+          },
+        ],
+        accordionItems2: [
+          {
+            title: 'Accordion Head 1',
+            content: 'Accordion contents 1 Accordion contents 1 Accordion contents 1 Accordion contents 1',
+            open: true,
+          },
+          {
+            title: 'Accordion Head 2',
+            content: 'Accordion contents 2 Accordion contents 2 Accordion contents 2 Accordion contents 2',
+            open: false,
+          },
+          {
+            title: 'Accordion Head 3',
+            content: 'Accordion contents 3 Accordion contents 3 Accordion contents 3 Accordion contents 3',
+            open: false,
           },
         ]
+
       }
     }
   }

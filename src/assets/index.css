@@ -96,8 +96,12 @@ body {
     .ic-arrow {
       @apply text-xl;
 
-      transform-origin: left center;
-      transition: transform .5s;
+      transform-origin: center center;
+      transition: transform 0.3s ease;
+
+      &.open {
+        transform: rotate(180deg);
+      }
     }
   }
 
