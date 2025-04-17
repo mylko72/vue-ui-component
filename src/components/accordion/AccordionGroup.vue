@@ -5,8 +5,7 @@
       :key="index"
       :title="item.title"
       :index="index"
-      :model-value="item.open"
-      @update:modelValue="(val) => updateOpen(index, val)"
+      v-model="item.open"
       @toggle="handleToggle"
     >
       {{ item.content }}
@@ -26,12 +25,26 @@
       accordionItems: {
         type: Array,
         required: true,
+      },
+      accordionOptions: {
+        type: Object,
+      },
+    },
+    emits: ['updateOpen'],
+    data() {
+      return {
+        type: this.accordionOptions.type,
+        motion: this.accordionOptions.transition
       }
     },
     methods: {
       handleToggle(clickedIndex) {
         this.accordionItems.forEach((item, idx) => {
-          item.open = idx === clickedIndex ? !item.open : false;
+          if(this.type === 'only') {
+            item.open = idx === clickedIndex ? !item.open : false;
+          } else if (this.type === 'toggle') {
+            idx === clickedIndex && (item.open = !item.open);
+          }
         });
 
         // 자동 스크롤
@@ -39,9 +52,6 @@
           const header = document.getElementById(`accordion-head-${clickedIndex + 1}`);
           header?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
-      },
-      updateOpen(index, value) {
-        this.props.accordionItems[index].open = value;
       },
     }
   }

@@ -38,13 +38,13 @@
       modelValue: Boolean,
       index: Number,
     },
-    emits: ['update:modelValue', 'toggle'],
+    emits: ['toggle'],
     data() {
       return {
         transitioning: false,
         visible: this.modelValue,
-        headerId: `accordion-head-${this._uid}`,
-        contentId: `accordion-content-${this._uid}`,
+        headerId: `accordion-head-${this.$.uid}`,
+        contentId: `accordion-content-${this.$.uid}`,
       };
     },
     watch: {
@@ -58,9 +58,6 @@
       }
     },
     methods: {
-      toggle() {
-        this.$emit('update:modelValue', !this.modelValue);
-      },
       handleClick() {
         this.$emit('toggle', this.index);
       },

@@ -16,14 +16,14 @@
       <h3 class="text-xl">Case 1. toggle</h3>
       <p class="py-2">accordion-option="toggle"인 경우 아코디언 헤더 클릭시 아코디언 헤더와 연결된 콘텐츠 섹션만 열리거나 닫힌다. 기본 옵션이다.</p>
       <div class="my-6">
-        <accordion-group :accordion-items="accordionItems" />
+        <accordion-group :accordion-items="accordionItems" :accordion-options="{type: 'toggle', transition: true}" />
       </div>
     </div>
     <div class="comp-view">
       <h3 class="text-xl">Case 2. only</h3>
       <p class="py-2">accordion-option="only"인 경우 아코디언 헤더 클릭시 아코디언 헤더와 연결된 섹션만 열리고 기존에 열려 있던 콘텐츠 섹션은 무조건 닫힌다. 즉, 무조건 하나만 열린다.</p>
       <div class="my-6">
-        <accordion-group :accordion-items="accordionItems2" />
+        <accordion-group :accordion-items="accordionItems2" :accordion-options="{type: 'only', transition: true}" />
       </div>
     </div>
   </section>
@@ -62,17 +62,17 @@
         ],
         accordionItems2: [
           {
-            title: 'Accordion Head 1',
+            title: 'Accordion Head 11',
             content: 'Accordion contents 1 Accordion contents 1 Accordion contents 1 Accordion contents 1',
             open: true,
           },
           {
-            title: 'Accordion Head 2',
+            title: 'Accordion Head 12',
             content: 'Accordion contents 2 Accordion contents 2 Accordion contents 2 Accordion contents 2',
             open: false,
           },
           {
-            title: 'Accordion Head 3',
+            title: 'Accordion Head 13',
             content: 'Accordion contents 3 Accordion contents 3 Accordion contents 3 Accordion contents 3',
             open: false,
           },
