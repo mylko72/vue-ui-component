@@ -16,7 +16,7 @@
     </div>
     <div class="comp-view">
       <h3 class="text-xl">Case 3. 동적 탭 컴포넌트</h3>
-      <p class="py-2"><code class="p-1 bg-slate-100">component :is="..."</code> 문법을 사용하여 컴포넌트 동적 렌더링 </p>
+      <p class="py-2"><code class="code-view">component :is="..."</code> 문법을 사용하여 컴포넌트 동적 렌더링 </p>
       <div class="my-6">
         <tabs :tab-items="tabItems2">
           <!-- Tab Panel 2 -->

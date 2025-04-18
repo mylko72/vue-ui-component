@@ -52,6 +52,10 @@ body {
   @apply mt-6 mb-12;
 }
 
+.code-view {
+  @apply p-1 bg-slate-100 rounded-md
+}
+
 /*-------------------------------
  * Tab
 ---------------------------------*/
@@ -91,18 +95,22 @@ body {
   @apply max-w-3xl;
 
   .accordion-btn {
-    @apply relative z-0 flex justify-between items-center w-full h-auto py-4 px-4 border border-slate-200 text-base text-left;
+    @apply relative z-0 flex justify-between items-center w-full h-auto py-4 px-4 border border-b-slate-400 border-slate-300 text-base text-left;
 
-    .ic-arrow {
-      @apply text-xl;
-
-      transform-origin: center center;
-      transition: transform 0.3s ease;
-
-      &.open {
-        transform: rotate(180deg);
+      &:focus, &:hover {
+        background: hsl(216deg 94% 94%);
       }
-    }
+
+      .ic-arrow {
+        @apply text-xl;
+
+        transform-origin: center center;
+        transition: transform 0.3s ease;
+
+        &.open {
+          transform: rotate(180deg);
+        }
+      }
   }
 
   .ui-accordion-contents {

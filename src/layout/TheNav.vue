@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-none w-64">
+  <div class="flex-auto w-64">
     <nav class="min-h-screen px-4 py-5 border border-slate-200 rounded-2xl">
       <h2 class="mb-3 ml-3 text-xs font-semibold text-slate-300 leading-7">Components</h2>
       <ul>

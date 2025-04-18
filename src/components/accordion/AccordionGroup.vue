@@ -8,7 +8,10 @@
       v-model="item.open"
       @toggle="handleToggle"
     >
-      {{ item.content }}
+      <component v-if="item.component" :is="item.component" />
+      <template v-else-if="item.content">
+        {{ item.content }}
+      </template>
     </accordion-item>
   </div>
 </template>
