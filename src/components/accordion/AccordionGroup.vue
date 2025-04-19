@@ -42,6 +42,7 @@
     },
     methods: {
       handleToggle(clickedIndex) {
+        console.log('toggle accordion...');
         this.accordionItems.forEach((item, idx) => {
           if(this.type === 'only') {
             item.open = idx === clickedIndex ? !item.open : false;
