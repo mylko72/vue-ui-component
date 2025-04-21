@@ -41,7 +41,7 @@
             icon: 'ThLayoutAccordionSeparated'
           },
           {
-            item: 'Popup',
+            item: 'Popup(Modal)',
             url: '/popup',
             icon: 'CaPopup'
           },

@@ -19,7 +19,11 @@ const router = createRouter({
       name: 'accordion',
       component: () => import('../views/AccordionView.vue'),
     },
-
+    {
+      path: '/popup',
+      name: 'popup',
+      component: () => import('../views/PopupView.vue'),
+    },
   ],
 })
 

@@ -37,6 +37,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.txt-hidden {
+  position: relative;
+  z-index: -1;
+  display: inline-block;
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  word-break: initial;
+  word-wrap: initial;
+}
+
 .terms-def {
   @apply mt-6 mb-8;
 
@@ -124,22 +138,71 @@ body {
   }
 }
 
-/* 트랜지션 정의 */
-.accordion-enter-active,
-.accordion-leave-active {
-  transition: all 0.3s ease;
+/*-------------------------------
+ * Popup(Modal)
+---------------------------------*/
+.modal-btn {
+  @apply px-3 py-2 rounded-lg text-base text-white;
+  background-color: #49a6e9;
 }
+.ui-layer-popup {
+  @apply bg-black bg-opacity-50;
 
-.accordion-enter-from,
-.accordion-leave-to {
-  max-height: 0;
-  opacity: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-}
+  &.popup-open {
+    display: flex;
+  }
 
-.accordion-enter-to,
-.accordion-leave-from {
-  max-height: 1000px; /* 충분한 높이 설정 */
-  opacity: 1;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 991;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  .layer-popup-inner {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: stretch;
+    width: 400px;
+    max-height: 100%;
+    height: auto;
+    border-radius: 5px;
+    background-color: #fff;
+    overflow: hidden;
+  }
+
+  .layer-popup-title {
+    @apply w-full px-5 py-3;
+
+    h1 {
+      @apply text-xl font-bold;
+    }
+  }
+
+  .layer-popup-contents {
+    .inner {
+      @apply p-5;
+    }
+  }
+
+  .layer-popup-bottom {
+    display: flex;
+    width: 100%;
+
+    button {
+      width: 100%;
+      height: 40px;
+      border: 0;
+      background-color: #666;
+      color: #fff;
+    }
+  }
+
+  .btn-layer-close {
+    @apply absolute top-3 right-4 text-xl;
+  }
 }
