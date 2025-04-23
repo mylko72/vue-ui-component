@@ -10,13 +10,25 @@
             <label for="checkbox" class="mr-4">
                 <span>체크체크</span>
             </label>
-            <button class="mr-2 px-3 py-1 rounded-lg text-sm border border-slate-400" aria-haspopup="dialog" data-popup="popup2"><span>2차 팝업 열기</span></button>
-            <button class="mr-2 px-3 py-1 rounded-lg text-sm border border-slate-400" aria-haspopup="dialog" data-popup="popup4"><span>2차 컨펌 팝업 열기</span></button>
+            <button
+              class="mr-2 px-3 py-1 rounded-lg text-sm border border-slate-400"
+              @click="popupOpen('popup2')"
+              aria-haspopup="dialog"
+              data-popup="popup2">
+                <span>2차 팝업 열기</span>
+            </button>
+            <button
+              class="mr-2 px-3 py-1 rounded-lg text-sm border border-slate-400"
+              @click="popupOpen('popup4')"
+              aria-haspopup="dialog"
+              data-popup="popup4">
+                <span>2차 컨펌 팝업 열기</span>
+            </button>
         </div>
     </div>
     <div class="layer-popup-bottom">
-        <button :popup-close="popupId" popup-close-all="true">팝업 모두 닫기</button>
-        <button :popup-close="popupId">현재 팝업 닫기</button>
+        <button :popup-close="popupId" popup-close-all="true" @click="$emit('closeAll')">팝업 모두 닫기</button>
+        <button :popup-close="popupId" @click="$emit('close', popupId)">현재 팝업 닫기</button>
     </div>
   </div>
 </template>
@@ -25,6 +37,11 @@
   export default {
     props: {
       popupId: String
+    },
+    methods: {
+      popupOpen(popupId) {
+        this.$emit('open', popupId);
+      },
     }
   }
 </script>

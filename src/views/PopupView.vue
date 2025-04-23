@@ -10,13 +10,29 @@
     <div class="comp-view">
       <p class="py-2">탭이 자동으로 활성화되고, 탭에 포커스가 주어지면 패널이 표시되는 탭 위젯이다.</p>
       <div class="my-6 pl-4">
-        <button class="modal-btn" @click="popupOpen(true)" aria-haspopup="dialog" data-popup="popup1">팝업 열기</button>
+        <button class="modal-btn" @click="popupOpen('popup1')" aria-haspopup="dialog" data-popup="popup1">팝업 열기</button>
         <Teleport to="body">
-          <Popup :modal-open="isModalOpen" @close="popupOpen(false)" popupId="popup1">
+          <Popup :modal-open="isModalOpen['popup1']" @close="popupClose('popup1')" popupId="popup1">
             <template #contents>
-              <ModalChild popupId="popup1" />
+              <ModalChild @open="popupOpen" @close="popupClose" @closeAll="popupCloseAll" popupId="popup1" />
             </template>
           </Popup>
+          <Popup :modal-open="isModalOpen['popup2']" @close="popupClose('popup2')" popupId="popup2">
+            <template #contents>
+              <ModalChild2 @open="popupOpen" @close="popupClose" @closeAll="popupCloseAll" popupId="popup2" />
+            </template>
+          </Popup>
+          <Popup :modal-open="isModalOpen['popup3']" @close="popupClose('popup3')" popupId="popup3">
+            <template #contents>
+              <ModalChild3 @close="popupClose" @closeAll="popupCloseAll" popupId="popup3" />
+            </template>
+          </Popup>
+          <Popup :modal-open="isModalOpen['popup4']" @close="popupClose('popup4')" popupId="popup4">
+            <template #contents>
+              <ModalChild4 @close="popupClose" @closeAll="popupCloseAll" popupId="popup4" />
+            </template>
+          </Popup>
+          <div v-if="isDimOpen" class="popup-dimmed"></div>
         </Teleport>
       </div>
     </div>
@@ -24,22 +40,77 @@
 </template>
 
 <script>
+  import { watchObjectKeys } from '@/utils/watchObjectKeys';
   import Popup from '@/components/popup/Popup.vue';
   import ModalChild from '@/components/ModalChild.vue';
+  import ModalChild2 from '@/components/ModalChild2.vue';
+  import ModalChild3 from '@/components/ModalChild3.vue';
+  import ModalChild4 from '@/components/ModalChild4.vue';
 
   export default {
     components: {
       Popup,
-      ModalChild
+      ModalChild,
+      ModalChild2,
+      ModalChild3,
+      ModalChild4,
     },
     data() {
       return {
-        isModalOpen: false
+        currentId: null,
+        lastFocusedElement: [],
+        isModalOpen: {
+          popup1: false,
+          popup2: false,
+          popup3: false,
+          popup4: false,
+        },
+      }
+    },
+    created() {
+      this.modalWatcher = watchObjectKeys(this, 'isModalOpen', (key, value) => {
+        if(this.currentId !== key) return false;
+        console.log(`Vue2 - ${key} changed to`, value);
+        if(value) {
+          this.lastFocusedElement.push(document.activeElement);
+        } else {
+          this.lastFocusedElement[this.lastFocusedElement.length-1].focus();
+          this.lastFocusedElement.pop();
+        }
+      })
+    },
+    computed: {
+      isDimOpen() {
+        return Object.values(this.isModalOpen).some(Boolean)
       }
     },
     methods: {
-      popupOpen(val) {
-        this.isModalOpen = val;
+      popupOpen(popupId) {
+        console.log('popupId', popupId);
+        this.isModalOpen[popupId] = true;
+        this.currentId = popupId;
+      },
+      popupClose(popupId) {
+        console.log('popupId2', popupId);
+        this.isModalOpen[popupId] = false;
+        this.currentId = popupId;
+      },
+      async popupCloseAll() {
+        console.log('close all....');
+        this.modalWatcher.ignore(true) // 감시 중단
+
+        const lastElement = this.lastFocusedElement[0];
+
+        await this.lastFocusedElement.slice().reverse().map((element) => {
+          const popupId = element.dataset.popup;
+          this.popupClose(popupId);
+          this.lastFocusedElement.shift();
+        });
+
+        this.currentId = null;
+        lastElement?.focus();
+
+        this.modalWatcher.ignore(false) // 감시재개
       }
     }
   }
