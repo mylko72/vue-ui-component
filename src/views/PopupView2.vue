@@ -12,25 +12,27 @@
       <div class="my-6 pl-4">
         <button class="modal-btn" @click="popupOpen('popup1')" aria-haspopup="dialog" data-popup="popup1">팝업 열기</button>
         <Teleport to="body">
-          <!-- 모달 -->
-          <Popup
-            v-for="id in openedPopups"
-            :modal-open="isModalOpen[id]"
-            @close="popupClose(id)"
-            :popupId="id"
-            :key="id"
-            :style="getZIndex(id)"
-          >
+          <Popup :modal-open="isModalOpen['popup1']" @close="popupClose('popup1')" popupId="popup1">
             <template #contents>
-              <component :is="popupComponentMap[id]" @open="popupOpen" @close="popupClose" @closeAll="popupCloseAll" :popupId="id" />
+              <ModalChild @open="popupOpen" @close="popupClose" @closeAll="popupCloseAll" popupId="popup1" />
             </template>
           </Popup>
-          <!-- dim -->
-          <div
-            v-if="isDimOpen"
-            class="popup-dimmed"
-            :style="{ zIndex: getDimZIndex() }"
-          ></div>
+          <Popup :modal-open="isModalOpen['popup2']" @close="popupClose('popup2')" popupId="popup2">
+            <template #contents>
+              <ModalChild2 @open="popupOpen" @close="popupClose" @closeAll="popupCloseAll" popupId="popup2" />
+            </template>
+          </Popup>
+          <Popup :modal-open="isModalOpen['popup3']" @close="popupClose('popup3')" popupId="popup3">
+            <template #contents>
+              <ModalChild3 @close="popupClose" @closeAll="popupCloseAll" popupId="popup3" />
+            </template>
+          </Popup>
+          <Popup :modal-open="isModalOpen['popup4']" @close="popupClose('popup4')" popupId="popup4">
+            <template #contents>
+              <ModalChild4 @close="popupClose" @closeAll="popupCloseAll" popupId="popup4" />
+            </template>
+          </Popup>
+          <div v-if="isDimOpen" class="popup-dimmed"></div>
         </Teleport>
       </div>
     </div>
@@ -48,6 +50,10 @@
   export default {
     components: {
       Popup,
+      ModalChild,
+      ModalChild2,
+      ModalChild3,
+      ModalChild4,
     },
     data() {
       return {
@@ -59,20 +65,7 @@
           popup3: false,
           popup4: false,
         },
-        popupComponentMap: {
-          popup1: ModalChild,
-          popup2: ModalChild2,
-          popup3: ModalChild3,
-          popup4: ModalChild4,
-        },
-        baseZIndex: 1000 // 시작 기준점
       }
-    },
-    mounted() {
-      window.addEventListener('keydown', this.handleEscKey)
-    },
-    beforeUnmount() {
-      window.removeEventListener('keydown', this.handleEscKey)
     },
     created() {
       this.modalWatcher = watchObjectKeys(this, 'isModalOpen', (key, value) => {
@@ -87,16 +80,8 @@
       })
     },
     computed: {
-      openedPopups() {
-        return Object.entries(this.isModalOpen)
-          .filter(([_, v]) => v)
-          .map(([k]) => k)
-      },
-      topModalZIndex() {
-        return this.baseZIndex + this.openedPopups.length
-      },
       isDimOpen() {
-        return this.openedPopups.length > 0
+        return Object.values(this.isModalOpen).some(Boolean)
       }
     },
     methods: {
@@ -126,36 +111,6 @@
         lastElement?.focus();
 
         this.modalWatcher.ignore(false) // 감시재개
-      },
-      closeTopModal() {
-        const openKeys = this.openedPopups
-        if (!openKeys.length) return
-
-        const topPopupId = openKeys[openKeys.length - 1]
-        this.popupClose(topPopupId);
-        // this.isModalOpen[topPopupId] = false
-      },
-      handleEscKey(e) {
-        if (e.key === 'Escape') {
-          this.closeTopModal()
-        }
-      },
-      getZIndex(popupId) {
-        if(!this.openedPopups.length) return;
-        const index = this.openedPopups.indexOf(popupId)
-        console.log('index', index);
-        if(index === this.openedPopups.length-1) return { zIndex: this.topModalZIndex }
-        return { zIndex: this.getZIndexForPopup(popupId) }
-      },
-      getZIndexForPopup(popupId) {
-        const index = this.openedPopups.indexOf(popupId)
-        if (index === -1) return 0 // 닫힌 상태
-        return this.baseZIndex + index // 순서대로 1001, 1002, ...
-      },
-      getDimZIndex() {
-        const count = this.openedPopups.length
-        if (count === 0) return 0
-        return this.baseZIndex + count - 1 // 딤은 최상위 모달 바로 아래
       }
     }
   }
