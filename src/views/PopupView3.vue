@@ -11,38 +11,36 @@
       <p class="py-2">탭이 자동으로 활성화되고, 탭에 포커스가 주어지면 패널이 표시되는 탭 위젯이다.</p>
       <div class="my-6 pl-4">
         <button class="modal-btn" @click="popupOpen('popup1')" aria-haspopup="dialog" data-popup="popup1">팝업 열기</button>
+        <Teleport to="body">
+          <Popup :modal-open="isModalOpen['popup1']" @close="popupClose('popup1')" popupId="popup1">
+            <template #contents>
+              <ModalChild @open="popupOpen" @close="popupClose" @closeAll="popupCloseAll" popupId="popup1" />
+            </template>
+          </Popup>
+          <Popup :modal-open="isModalOpen['popup2']" @close="popupClose('popup2')" popupId="popup2">
+            <template #contents>
+              <ModalChild2 @open="popupOpen" @close="popupClose" @closeAll="popupCloseAll" popupId="popup2" />
+            </template>
+          </Popup>
+          <Popup :modal-open="isModalOpen['popup3']" @close="popupClose('popup3')" popupId="popup3">
+            <template #contents>
+              <ModalChild3 @close="popupClose" @closeAll="popupCloseAll" popupId="popup3" />
+            </template>
+          </Popup>
+          <Popup :modal-open="isModalOpen['popup4']" @close="popupClose('popup4')" popupId="popup4">
+            <template #contents>
+              <ModalChild4 @close="popupClose" @closeAll="popupCloseAll" popupId="popup4" />
+            </template>
+          </Popup>
+          <div v-if="isDimOpen" class="popup-dimmed"></div>
+        </Teleport>
       </div>
-      <div class="my-6 pl-4">
-        <button class="modal-btn" @click="popupOpen('popup3')" aria-haspopup="dialog" data-popup="popup3">팝업 열기</button>
-      </div>
-      <Teleport to="body">
-        <!-- 모달 -->
-        <Popup
-          v-for="id in modal.openedPopups"
-          :modal-open="modal.isModalOpen[id]"
-          @close="popupClose(id)"
-          :popupId="id"
-          :key="id"
-          :style="{ zIndex: modal.getZIndex(id) }"
-        >
-          <template #contents>
-            <component :is="popupComponentMap[id]" @open="popupOpen" @close="popupClose" @closeAll="popupCloseAll" :popupId="id" />
-          </template>
-        </Popup>
-        <!-- dim -->
-        <div
-          v-if="modal.isDimOpen"
-          class="popup-dimmed"
-          :style="{ zIndex: modal.getDimZIndex() }"
-        ></div>
-      </Teleport>
     </div>
   </section>
 </template>
 
 <script>
   import { watchObjectKeys } from '@/utils/watchObjectKeys';
-  import { modalManager } from '@/utils/modalManager';
   import Popup from '@/components/popup/Popup.vue';
   import ModalChild from '@/components/ModalChild.vue';
   import ModalChild2 from '@/components/ModalChild2.vue';
@@ -52,36 +50,23 @@
   export default {
     components: {
       Popup,
+      ModalChild,
+      ModalChild2,
+      ModalChild3,
+      ModalChild4,
     },
     data() {
       return {
         currentId: null,
         lastFocusedElement: [],
-        modal: modalManager(['popup1', 'popup2', 'popup3', 'popup4']),
-        // isModalOpen: {
-        //   popup1: false,
-        //   popup2: false,
-        //   popup3: false,
-        //   popup4: false,
-        // },
-        popupComponentMap: {
-          popup1: ModalChild,
-          popup2: ModalChild2,
-          popup3: ModalChild3,
-          popup4: ModalChild4,
+        isModalOpen: {
+          popup1: false,
+          popup2: false,
+          popup3: false,
+          popup4: false,
         },
-        // baseZIndex: 1000 // 시작 기준점
+        baseZIndex: 1000 // 시작 기준점
       }
-    },
-    mounted() {
-      this.modal.initEscClose()
-      // const { enableEscKey } = useModalManager(this.isModalOpen, this.openedPopups);
-      // enableEscKey();
-    },
-    beforeUnmount() {
-      this.modal.destroyEscClose()
-      // const { disableEscKey } = useModalManager(this.isModalOpen, this.openedPopups);
-      // disableEscKey();
     },
     created() {
       this.modalWatcher = watchObjectKeys(this, 'isModalOpen', (key, value) => {
@@ -96,32 +81,20 @@
       })
     },
     computed: {
-      // openedPopups() {
-      //   return getKeysFromObj(this.isModalOpen);
-      // },
-      // topModalZIndex() {
-      //   const { modalZIndex } = useModalManager(this.isModalOpen, this.openedPopups);
-      //   return modalZIndex(this.openedPopups);
-      // },
-      // isDimOpen() {
-      //   return this.openedPopups.length > 0
-      // }
+      isDimOpen() {
+        return Object.values(this.isModalOpen).some(Boolean)
+      }
     },
     methods: {
       popupOpen(popupId) {
-        this.modal.openModal(popupId)
+        console.log('popupId', popupId);
+        this.isModalOpen[popupId] = true;
         this.currentId = popupId;
-
-        console.log('isModalOpen2', this.modal.isModalOpen);
-        // const { open } = useModalManager(this.isModalOpen, this.openedPopups);
-        // open(popupId);
       },
       popupClose(popupId) {
-        this.modal.closeModal(popupId)
+        console.log('popupId2', popupId);
+        this.isModalOpen[popupId] = false;
         this.currentId = popupId;
-
-        // const { close } = useModalManager(this.isModalOpen, this.openedPopups);
-        // close(popupId);
       },
       async popupCloseAll() {
         console.log('close all....');
@@ -139,15 +112,7 @@
         lastElement?.focus();
 
         this.modalWatcher.ignore(false) // 감시재개
-      },
-      // getZIndex(popupId) {
-      //   const { revZIndex } = useModalManager(this.isModalOpen, this.openedPopups);
-      //   return revZIndex(popupId);
-      // },
-      // getDimZIndex() {
-      //   const { revDimZIndex } = useModalManager(this.isModalOpen, this.openedPopups);
-      //   return revDimZIndex();
-      // }
+      }
     }
   }
 </script>
