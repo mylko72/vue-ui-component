@@ -58,70 +58,40 @@
         currentId: null,
         lastFocusedElement: [],
         modal: modalManager(['popup1', 'popup2', 'popup3', 'popup4']),
-        // isModalOpen: {
-        //   popup1: false,
-        //   popup2: false,
-        //   popup3: false,
-        //   popup4: false,
-        // },
         popupComponentMap: {
           popup1: ModalChild,
           popup2: ModalChild2,
           popup3: ModalChild3,
           popup4: ModalChild4,
         },
-        // baseZIndex: 1000 // 시작 기준점
       }
     },
     mounted() {
       this.modal.initEscClose()
-      // const { enableEscKey } = useModalManager(this.isModalOpen, this.openedPopups);
-      // enableEscKey();
     },
     beforeUnmount() {
       this.modal.destroyEscClose()
-      // const { disableEscKey } = useModalManager(this.isModalOpen, this.openedPopups);
-      // disableEscKey();
     },
     created() {
-      this.modalWatcher = watchObjectKeys(this, 'isModalOpen', (key, value) => {
+      this.modalWatcher = watchObjectKeys(this, 'modal.isModalOpen', (key, value) => {
         if(this.currentId !== key) return false;
         console.log(`Vue2 - ${key} changed to`, value);
         if(value) {
           this.lastFocusedElement.push(document.activeElement);
         } else {
+          this.currentId = this.modal.openedPopups[this.modal.openedPopups.length-1] || null;
           this.lastFocusedElement[this.lastFocusedElement.length-1].focus();
           this.lastFocusedElement.pop();
         }
       })
     },
-    computed: {
-      // openedPopups() {
-      //   return getKeysFromObj(this.isModalOpen);
-      // },
-      // topModalZIndex() {
-      //   const { modalZIndex } = useModalManager(this.isModalOpen, this.openedPopups);
-      //   return modalZIndex(this.openedPopups);
-      // },
-      // isDimOpen() {
-      //   return this.openedPopups.length > 0
-      // }
-    },
     methods: {
       popupOpen(popupId) {
         this.modal.openModal(popupId)
         this.currentId = popupId;
-
-        console.log('isModalOpen2', this.modal.isModalOpen);
-        // const { open } = useModalManager(this.isModalOpen, this.openedPopups);
-        // open(popupId);
       },
       popupClose(popupId) {
         this.modal.closeModal(popupId)
-        this.currentId = popupId;
-
-        // const { close } = useModalManager(this.isModalOpen, this.openedPopups);
-        // close(popupId);
       },
       async popupCloseAll() {
         console.log('close all....');
@@ -140,14 +110,6 @@
 
         this.modalWatcher.ignore(false) // 감시재개
       },
-      // getZIndex(popupId) {
-      //   const { revZIndex } = useModalManager(this.isModalOpen, this.openedPopups);
-      //   return revZIndex(popupId);
-      // },
-      // getDimZIndex() {
-      //   const { revDimZIndex } = useModalManager(this.isModalOpen, this.openedPopups);
-      //   return revDimZIndex();
-      // }
     }
   }
 </script>
