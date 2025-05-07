@@ -1,5 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import TabView from '@/views/TabView.vue'
+
+// API 모드 플래그: options | composition
+const apiMode = import.meta.env.VITE_API_MODE || 'options'
+
+// 동적 import 분기 함수
+const resolveView = (name) => {
+  return apiMode === 'options'
+    ? () => import(`../views/${name}.options.vue`)
+    : () => import(`../views/${name}.composition.vue`)
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,22 +16,22 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: TabView,
+      component: resolveView('TabView'),
     },
     {
       path: '/tab',
       name: 'tab',
-      component: () => import('../views/TabView.vue'),
+      component: resolveView('TabView'),
     },
     {
       path: '/accordion',
       name: 'accordion',
-      component: () => import('../views/AccordionView.vue'),
+      component: resolveView('AccordionView'),
     },
     {
       path: '/popup',
       name: 'popup',
-      component: () => import('../views/PopupView.vue'),
+      component: resolveView('PopupView'),
     },
   ],
 })

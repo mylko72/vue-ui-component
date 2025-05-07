@@ -1,6 +1,6 @@
 <template>
   <div class="ui-container p-5">
-    <TheHeader class="mb-3" :menuOpen="isMenuOpen" @toggle="handleToggle" />
+    <TheHeader class="mb-3" :menu-open="isMenuOpen" @toggle="handleToggle" />
     <div class="flex items-start gap-3">
       <TheNav :menuOpen="isMenuOpen" @toggle="handleToggle" />
       <TheView />
@@ -30,7 +30,7 @@ export default {
   methods: {
     handleToggle(value) {
       this.isMenuOpen = value;
-    }
+    },
   }
 }
 </script>

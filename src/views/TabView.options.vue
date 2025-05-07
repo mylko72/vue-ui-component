@@ -1,7 +1,7 @@
 <template>
   <section aria-labelledby="title2">
     <div class="border-b pb-4">
-      <h2 id="title2" class="text-5xl font-medium" tabindex="0">Tabs</h2>
+      <h2 id="title2" class="text-5xl font-medium" tabindex="0">Tabs  (Option API)</h2>
     </div>
     <div class="my-6">
       <p class="py-2">탭은 탭 패널이라고 하는 여러 겹의 콘텐츠 섹션으로 , 한 번에 하나의 콘텐츠 패널을 표시합니다. 각 탭 패널에는 연관된 탭 요소가 있으며, 이 탭 요소가 활성화되면 해당 패널이 표시됩니다. 탭 요소 목록은 현재 표시된 패널의 한쪽 가장자리, 특히 위쪽 가장자리를 따라 정렬됩니다 .</p>
@@ -11,53 +11,53 @@
       <h3 class="text-xl">Case 1. 자동 활성화 탭</h3>
       <p class="py-2">탭이 자동으로 활성화되고, 탭에 포커스가 주어지면 패널이 표시되는 탭 위젯이다.</p>
       <div class="my-6">
-        <tabs :tab-items="tabItems"></tabs>
+        <MyTab :tab-items="tabItems"></MyTab>
       </div>
     </div>
     <div class="comp-view">
       <h3 class="text-xl">Case 3. 동적 탭 컴포넌트</h3>
       <p class="py-2"><code class="code-view">component :is="..."</code> 문법을 사용하여 컴포넌트 동적 렌더링 </p>
       <div class="my-6">
-        <tabs :tab-items="tabItems2">
+        <MyTab :tab-items="tabItems2">
           <!-- Tab Panel 2 -->
           <template #inner-2>
             <p class="mb-10">내부 탭 슬롯 2의 내용입니다.</p>
           </template>
-        </tabs>
+        </MyTab>
       </div>
     </div>
     <div class="comp-view">
       <h3 class="text-xl">Case 4. 중첩 탭</h3>
       <p class="py-2">각 슬롯은 고유 slotName으로 연결돼 있다.</p>
       <div class="my-6">
-        <tabs :tab-items="tabItems3">
+        <MyTab :tab-items="tabItems3">
           <!-- Tab Panel 1 -->
           <template #outer-1>
             <p class="mb-10">외부 탭 슬롯 1의 내용입니다.</p>
             <!-- 중첩 탭(Nested Tabs) -->
-            <tabs :tab-items="tabItems2">
+            <MyTab :tab-items="tabItems2">
               <template #inner-2>
                 <p class="mb-10">내부 탭 슬롯 2의 내용입니다.</p>
               </template>
-            </tabs>
+            </MyTab>
           </template>
           <!-- Tab Panel 3 -->
           <template #outer-3>
             <p>외부 탭 슬롯 3의 내용입니다.</p>
           </template>
-        </tabs>
+        </MyTab>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-  import Tabs from '@/components/tabs/Tabs.vue';
-  import TabCompo from '@/components/TabCompo.vue';
+  // import Tabs from '@/components/Tabs/Tabs.options.vue';
+  // import { MyTab } from '@/components';
+  import TabChild from '@/components/TabChild.vue';
 
   export default {
     components: {
-      Tabs,
     },
     data() {
       return {
@@ -99,7 +99,7 @@
             id: 'tab-13',
             panelId: 'tab-panel-13',
             label: 'tab list 13',
-            component: TabCompo,  // 동적 컴포넌트
+            component: TabChild,  // 동적 컴포넌트
           },
           {
             id: 'tab-14',
